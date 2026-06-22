@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Alex Swanson — Config 2026</title>
+  <meta name="description" content="Senior Product Designer at Strava. Design Systems. Say hi at Config 2026.">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      overflow-x: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif;
+      background: #000000;
+      color: #ffffff;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .svg-filters {
+      position: absolute;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+    }
+
+    /* Ambient light — very subtle, deep, like light leaking from behind the phone */
+    .ambient {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(30, 15, 8, 0.8) 0%, transparent 60%),
+                  radial-gradient(ellipse 60% 40% at 20% 80%, rgba(10, 20, 50, 0.5) 0%, transparent 50%),
+                  radial-gradient(ellipse 50% 30% at 80% 60%, rgba(40, 15, 5, 0.3) 0%, transparent 50%);
+    }
+
+    /* Subtle grain texture overlay */
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      opacity: 0.03;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    }
+
+    /* Content Layer */
+    .content {
+      position: relative;
+      z-index: 1;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 20px;
+      gap: 16px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    /* Glass Card Base — the glass IS the show, not the background */
+    .glass {
+      position: relative;
+      backdrop-filter: blur(40px) saturate(120%) brightness(1.1);
+      -webkit-backdrop-filter: blur(40px) saturate(120%) brightness(1.1);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 28px;
+      overflow: hidden;
+    }
+
+    /* Internal glow — color trapped INSIDE the glass */
+    .glass::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    /* Refraction edge highlight */
+    .glass::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border: 1px solid transparent;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 40%, transparent 60%, rgba(255,255,255,0.05) 100%) border-box;
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    /* Hero-specific internal glow */
+    .hero::before {
+      background: radial-gradient(ellipse 70% 50% at 30% 80%, rgba(200, 60, 10, 0.15) 0%, transparent 70%),
+                  radial-gradient(ellipse 50% 60% at 80% 20%, rgba(15, 30, 80, 0.12) 0%, transparent 60%);
+    }
+
+    /* Facts-specific internal glow */
+    .facts::before {
+      background: radial-gradient(ellipse 60% 80% at 70% 50%, rgba(180, 50, 10, 0.08) 0%, transparent 60%);
+    }
+
+    /* Link pills — each has a subtle unique internal color */
+    .link-pill:nth-child(1)::before {
+      background: radial-gradient(ellipse 40% 80% at 0% 50%, rgba(200, 70, 10, 0.1) 0%, transparent 60%);
+    }
+    .link-pill:nth-child(2)::before {
+      background: radial-gradient(ellipse 40% 80% at 100% 50%, rgba(10, 25, 70, 0.1) 0%, transparent 60%);
+    }
+    .link-pill:nth-child(3)::before {
+      background: radial-gradient(ellipse 40% 80% at 0% 50%, rgba(100, 30, 80, 0.08) 0%, transparent 60%);
+    }
+    .link-pill:nth-child(4)::before {
+      background: radial-gradient(ellipse 40% 80% at 100% 50%, rgba(200, 80, 30, 0.08) 0%, transparent 60%);
+    }
+    .link-pill:nth-child(5)::before {
+      background: radial-gradient(ellipse 40% 80% at 0% 50%, rgba(10, 40, 90, 0.08) 0%, transparent 60%);
+    }
+
+    /* Hero Card */
+    .hero {
+      width: 100%;
+      padding: 36px 24px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
+    }
+
+    .avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #C83A0A, #1A2D5E);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 0 30px rgba(200, 58, 10, 0.2), inset 0 0 20px rgba(0,0,0,0.3);
+    }
+
+    .name {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .title {
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.6);
+      font-weight: 400;
+    }
+
+    .company {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.4);
+      font-weight: 500;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    .company svg {
+      width: 14px;
+      height: 14px;
+      fill: #FC4C02;
+    }
+
+    /* Fun Facts */
+    .facts {
+      width: 100%;
+      padding: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .fact-pill {
+      padding: 7px 13px;
+      border-radius: 100px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.7);
+      white-space: nowrap;
+    }
+
+    /* Links */
+    .links {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .link-pill {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      padding: 15px 18px;
+      text-decoration: none;
+      color: #ffffff;
+      border-radius: 20px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .link-pill:active {
+      transform: scale(0.97);
+      box-shadow: inset 0 0 20px rgba(255,255,255,0.03);
+    }
+
+    .link-pill svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      fill: rgba(255, 255, 255, 0.6);
+    }
+
+    .link-pill span {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .link-pill .link-arrow {
+      margin-left: auto;
+      opacity: 0.3;
+      font-size: 16px;
+    }
+
+    /* Footer */
+    .footer {
+      padding-top: 8px;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.2);
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .glass {
+        filter: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SVG Filters for subtle glass refraction -->
+  <svg class="svg-filters" aria-hidden="true">
+    <defs>
+      <filter id="glass-refract" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.02 0.015"
+          numOctaves="2"
+          seed="5"
+          result="noise"
+        />
+        <feDisplacementMap
+          in="SourceGraphic"
+          in2="noise"
+          scale="3"
+          xChannelSelector="R"
+          yChannelSelector="G"
+        />
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- Very subtle ambient light — not blobs, just atmosphere -->
+  <div class="ambient" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- Content -->
+  <main class="content">
+
+    <!-- Hero Card -->
+    <section class="glass hero">
+      <div class="avatar">AS</div>
+      <h1 class="name">Alex Swanson</h1>
+      <p class="title">Senior Product Designer</p>
+      <p class="company">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"/>
+        </svg>
+        Strava Design Systems
+      </p>
+    </section>
+
+    <!-- Fun Facts -->
+    <section class="glass facts">
+      <div class="fact-pill">Denver, CO</div>
+      <div class="fact-pill">3rd Config</div>
+      <div class="fact-pill">1st year @ Strava</div>
+      <div class="fact-pill">Design Systems</div>
+    </section>
+
+    <!-- Links -->
+    <nav class="links">
+      <a href="https://x.com/alexswanson09" target="_blank" rel="noopener" class="glass link-pill">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+        <span>@alexswanson09</span>
+        <span class="link-arrow">&rsaquo;</span>
+      </a>
+
+      <a href="https://linkedin.com/in/alexswansondesign" target="_blank" rel="noopener" class="glass link-pill">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+        </svg>
+        <span>LinkedIn</span>
+        <span class="link-arrow">&rsaquo;</span>
+      </a>
+
+      <a href="https://figma.com/@drip" target="_blank" rel="noopener" class="glass link-pill">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.354-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.019 3.019 3.019h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V8.98H8.148zM8.172 24c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.564v4.49c0 2.476-2.014 4.49-4.49 4.49h-.074zm-.024-7.51c-1.665 0-3.019 1.355-3.019 3.02s1.354 3.019 3.019 3.019c1.665 0 3.019-1.354 3.019-3.019v-3.02H8.148zm7.704 0h-.098c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h.098c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.49-4.49 4.49zm-.098-7.509c-1.665 0-3.019 1.354-3.019 3.019s1.354 3.019 3.019 3.019h.098c1.665 0 3.019-1.354 3.019-3.019s-1.354-3.019-3.019-3.019h-.098z"/>
+        </svg>
+        <span>Figma @drip</span>
+        <span class="link-arrow">&rsaquo;</span>
+      </a>
+
+      <a href="mailto:alexswanson.net@gmail.com" class="glass link-pill">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+        </svg>
+        <span>Email</span>
+        <span class="link-arrow">&rsaquo;</span>
+      </a>
+
+      <a href="https://alex-swanson.super.site" target="_blank" rel="noopener" class="glass link-pill">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+        </svg>
+        <span>Portfolio</span>
+        <span class="link-arrow">&rsaquo;</span>
+      </a>
+    </nav>
+
+    <!-- Footer -->
+    <p class="footer">Made for Config 2026</p>
+
+  </main>
+
+  <script>
+    // Animate subtle internal glow shift — makes glass feel alive
+    (function() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const hero = document.querySelector('.hero');
+      let t = 0;
+
+      function animateGlow() {
+        t += 0.003;
+        const x1 = 30 + Math.sin(t) * 15;
+        const y1 = 80 + Math.cos(t * 0.7) * 15;
+        const x2 = 80 + Math.cos(t * 0.5) * 12;
+        const y2 = 20 + Math.sin(t * 0.8) * 12;
+
+        hero.style.setProperty('--gx1', x1 + '%');
+        hero.style.setProperty('--gy1', y1 + '%');
+        hero.style.setProperty('--gx2', x2 + '%');
+        hero.style.setProperty('--gy2', y2 + '%');
+
+        requestAnimationFrame(animateGlow);
+      }
+
+      // Override the static ::before with animated version
+      const style = document.createElement('style');
+      style.textContent = `
+        .hero::before {
+          background: radial-gradient(ellipse 70% 50% at var(--gx1, 30%) var(--gy1, 80%), rgba(200, 60, 10, 0.15) 0%, transparent 70%),
+                      radial-gradient(ellipse 50% 60% at var(--gx2, 80%) var(--gy2, 20%), rgba(15, 30, 80, 0.12) 0%, transparent 60%) !important;
+        }
+      `;
+      document.head.appendChild(style);
+
+      hero.style.setProperty('--gx1', '30%');
+      hero.style.setProperty('--gy1', '80%');
+      hero.style.setProperty('--gx2', '80%');
+      hero.style.setProperty('--gy2', '20%');
+
+      animateGlow();
+    })();
+  </script>
+
+</body>
+</html>
