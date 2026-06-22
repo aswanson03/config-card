@@ -32,7 +32,14 @@
       overflow: hidden;
     }
 
-    /* Ambient light — very subtle, deep, like light leaking from behind the phone */
+    /* Unicorn Studio background layer */
+    .us-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+    }
+
+    /* Ambient light — fallback while Unicorn loads */
     .ambient {
       position: fixed;
       inset: 0;
@@ -306,7 +313,18 @@
     </defs>
   </svg>
 
-  <!-- Very subtle ambient light — not blobs, just atmosphere -->
+  <!-- Unicorn Studio WebGL background -->
+  <div class="us-bg" aria-hidden="true">
+    <div
+      data-us-project="ur0wiX0QwJZ92azRXzwk"
+      data-us-scale="0.5"
+      data-us-dpi="1"
+      data-us-fps="30"
+      style="width: 100%; height: 100%;"
+    ></div>
+  </div>
+
+  <!-- Fallback ambient light (shows while Unicorn loads or if WebGL fails) -->
   <div class="ambient" aria-hidden="true"></div>
   <div class="grain" aria-hidden="true"></div>
 
@@ -384,6 +402,9 @@
     <p class="footer">Made for Config 2026</p>
 
   </main>
+
+  <script src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.2.5/dist/unicornStudio.umd.js"></script>
+  <script>UnicornStudio.init();</script>
 
   <script>
     (function() {
