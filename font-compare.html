@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Font Comparison — Config Card</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700&family=Plus+Jakarta+Sans:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #000;
+      color: #fff;
+      font-family: -apple-system, system-ui, sans-serif;
+      padding: 20px;
+    }
+    h2 {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 12px;
+      text-align: center;
+    }
+    .grid {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .card {
+      padding: 28px 20px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      text-align: center;
+    }
+    .card .name { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 6px; }
+    .card .title { font-size: 15px; color: rgba(255,255,255,0.6); margin-bottom: 4px; }
+    .card .company { font-size: 12px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 16px; }
+    .card .pills { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 16px; }
+    .card .pill { padding: 6px 12px; border-radius: 100px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.7); }
+    .card .link { font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.8); padding: 4px 0; }
+
+    .font-space { font-family: 'Space Grotesk', sans-serif; }
+    .font-bricolage { font-family: 'Bricolage Grotesque', sans-serif; }
+    .font-jakarta { font-family: 'Plus Jakarta Sans', sans-serif; }
+  </style>
+</head>
+<body>
+  <div class="grid">
+
+    <div>
+      <h2>Space Grotesk</h2>
+      <div class="card font-space">
+        <p class="name">Alex Swanson</p>
+        <p class="title">Senior Product Designer</p>
+        <p class="company">Strava Design Systems</p>
+        <div class="pills">
+          <span class="pill">Denver, CO</span>
+          <span class="pill">3rd Config</span>
+          <span class="pill">Pick-up Basketball</span>
+          <span class="pill">Video Games</span>
+        </div>
+        <p class="link">@alexswanson09</p>
+        <p class="link">LinkedIn</p>
+        <p class="link">Figma @drip</p>
+      </div>
+    </div>
+
+    <div>
+      <h2>Bricolage Grotesque</h2>
+      <div class="card font-bricolage">
+        <p class="name">Alex Swanson</p>
+        <p class="title">Senior Product Designer</p>
+        <p class="company">Strava Design Systems</p>
+        <div class="pills">
+          <span class="pill">Denver, CO</span>
+          <span class="pill">3rd Config</span>
+          <span class="pill">Pick-up Basketball</span>
+          <span class="pill">Video Games</span>
+        </div>
+        <p class="link">@alexswanson09</p>
+        <p class="link">LinkedIn</p>
+        <p class="link">Figma @drip</p>
+      </div>
+    </div>
+
+    <div>
+      <h2>Plus Jakarta Sans</h2>
+      <div class="card font-jakarta">
+        <p class="name">Alex Swanson</p>
+        <p class="title">Senior Product Designer</p>
+        <p class="company">Strava Design Systems</p>
+        <div class="pills">
+          <span class="pill">Denver, CO</span>
+          <span class="pill">3rd Config</span>
+          <span class="pill">Pick-up Basketball</span>
+          <span class="pill">Video Games</span>
+        </div>
+        <p class="link">@alexswanson09</p>
+        <p class="link">LinkedIn</p>
+        <p class="link">Figma @drip</p>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
