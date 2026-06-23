@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Alex Swanson — Config 2026</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <title>Alex Swanson-config-2026</title>
   <meta name="description" content="Senior Product Designer at Strava. Design Systems. Say hi at Config 2026.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -156,33 +157,6 @@
       height: 88px;
       border-radius: 50%;
       overflow: hidden;
-      position: relative;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .avatar::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      border: 1px solid transparent;
-      pointer-events: none;
-    }
-
-    .avatar.animate::after {
-      animation: trace-border 0.8s ease-out forwards;
-    }
-
-    @keyframes trace-border {
-      0% {
-        border-color: transparent;
-        clip-path: polygon(50% 0%, 50% 0%, 50% 50%, 50% 50%);
-      }
-      100% {
-        border-color: rgba(255, 255, 255, 0.6);
-        clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%, 50% 0%, 50% 50%, 50% 50%);
-      }
     }
 
     .avatar img {
@@ -431,22 +405,6 @@
 
   <script src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.2.5/dist/unicornStudio.umd.js"></script>
   <script>UnicornStudio.init();</script>
-
-  <script>
-    (function() {
-      const avatar = document.querySelector('.avatar');
-      if (avatar) {
-        avatar.addEventListener('click', function() {
-          avatar.classList.remove('animate');
-          void avatar.offsetWidth;
-          avatar.classList.add('animate');
-        });
-        avatar.addEventListener('animationend', function() {
-          avatar.classList.remove('animate');
-        });
-      }
-    })();
-  </script>
 
   <script>
     (function() {
